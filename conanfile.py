@@ -4,8 +4,8 @@ from conans import ConanFile, CMake, tools
 class XmpsdkConan(ConanFile):
     name = "XmpSdk"
     version = "2016.7"
-    license = "<Put the package license here>"
-    url = "<Package recipe repository url here, for issues about the package>"
+    license = "The BSD License"
+    url = "https://github.com/piponazo/conan-xmpsdk"
     description = "<Description of Xmpsdk here>"
     settings = "os", "compiler", "build_type", "arch"
     options = {"shared": [True, False]}
@@ -13,17 +13,16 @@ class XmpsdkConan(ConanFile):
     generators = "cmake"
 
     def source(self):
-        self.run("git clone https://github.com/memsharded/hello.git")
-        self.run("cd hello && git checkout static_shared")
+        tools.get('http://download.macromedia.com/pub/developer/xmp/sdk/XMP-Toolkit-SDK-CC201607.zip')
+
+    def build(self):
         # This small hack might be useful to guarantee proper /MT /MD linkage
         # in MSVC if the packaged project doesn't have variables to set it
         # properly
-        tools.replace_in_file("hello/CMakeLists.txt", "PROJECT(MyHello)",
-                              '''PROJECT(MyHello)
-include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
-conan_basic_setup()''')
-
-    def build(self):
+        #tools.replace_in_file("hello/CMakeLists.txt", "PROJECT(MyHello)",
+        #                      '''PROJECT(MyHello)
+        #include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+        #conan_basic_setup()''')
         cmake = CMake(self)
         cmake.configure(source_folder="hello")
         cmake.build()
