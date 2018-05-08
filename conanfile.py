@@ -9,7 +9,7 @@ class XmpsdkConan(ConanFile):
     url = "https://github.com/piponazo/conan-xmpsdk"
     description = "<Description of Xmpsdk here>"
     settings = "os", "compiler", "build_type", "arch"
-    exports = ["CMake/*", "third-party/*"]
+    exports = ["CMake/*", "third-party/*", "FindXmpSdk.cmake"]
 
     options = {"shared": [True, False]}
     default_options = "shared=False"
@@ -32,7 +32,9 @@ class XmpsdkConan(ConanFile):
         cmake.build()
 
     def package(self):
-        self.copy("*.h", dst="include", src="hello")
+        self.copy("FindXmpSdk.cmake")
+        self.copy("*", dst="include", src="XMP-Toolkit-SDK-CC201607/public/include")
+        self.copy("*.h", dst="include", src="XMP-Toolkit-SDK-CC201607/third-party/zuid/interfaces")
         self.copy("*.lib", dst="lib", keep_path=False)
         self.copy("*.dll", dst="bin", keep_path=False)
         self.copy("*.so", dst="lib", keep_path=False)
@@ -40,5 +42,15 @@ class XmpsdkConan(ConanFile):
         self.copy("*.a", dst="lib", keep_path=False)
 
     def package_info(self):
-        self.cpp_info.libs = ["hello"]
+        self.cpp_info.libs = ["XMPCore"]
+        self.cpp_info.includedirs = ['include']  # Ordered list of include paths
+        self.cpp_info.libdirs = ['lib']  # Directories where libraries can be found
+        self.cpp_info.resdirs = ['res']  # Directories where resources, data, etc can be found
+        self.cpp_info.bindirs = ['bin']  # Directories where executables and shared libs can be found
+        # TODO MAC_ENV || UNIX_ENV || WIN_ENV || IOS_ENV
+        self.cpp_info.defines = []  # preprocessor definitions
+        self.cpp_info.cflags = []  # pure C flags
+        self.cpp_info.cppflags = []  # C++ compilation flags
+        self.cpp_info.sharedlinkflags = []  # linker flags
+        self.cpp_info.exelinkflags = []  # linker flags
 
