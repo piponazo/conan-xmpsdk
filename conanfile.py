@@ -27,6 +27,7 @@ class XmpsdkConan(ConanFile):
         shutil.rmtree("XMP-Toolkit-SDK-CC201607/third-party/expat")
         shutil.copytree(src="third-party/expat", dst="XMP-Toolkit-SDK-CC201607/third-party/expat")
 
+        # BUILD_SHARED_LIBS defined with self.shared value
         cmake = CMake(self)
         cmake.configure(source_folder="XMP-Toolkit-SDK-CC201607")
         cmake.build()
