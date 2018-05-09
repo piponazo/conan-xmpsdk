@@ -1,16 +1,4 @@
 # ==============================================================================
-# This project
-set(TARGET_NAME XMPCore)
-
-set(STATIC_STR "Static")
-if (NOT BUILD_SHARED_LIBS)
-	set(TARGET_NAME "${TARGET_NAME}${STATIC_STR}")
-	set(PROJECT_LABEL_STR "${TARGET_NAME}")
-else()
-	set(PROJECT_LABEL_STR "${TARGET_NAME}")
-endif()
-
-# ==============================================================================
 # Shared config
 # ==============================================================================
 # setup some values before calling shared config
@@ -24,36 +12,6 @@ endif()
 
 set(TP_ZUID_PATH "${XMPROOT_DIR}/third-party/zuid/interfaces")
 set(TP_EXPAT_PATH "${XMPROOT_DIR}/third-party/expat/lib/")
-
-# ==============================================================================
-# Project specific config starts here
-# ==============================================================================
-if(UNIX)
-	if(APPLE)
-		# OSX -------------------------------------------
-		if(XMP_BUILD_STATIC)
-			set(XMPCORE_LIB "XMPCoreStatic")
-		else(XMP_BUILD_STATIC)
-			set(XMPCORE_LIB "XMPCore")
-		endif()
-	else(APPLE)
-		# Linux -------------------------------------------
-        if(NOT BUILD_SHARED_LIBS)
-			set(XMPCORE_LIB "staticXMPCore")
-		else()
-			set(XMPCORE_LIB "XMPCore")
-		endif()
-	endif(APPLE)
-else(UNIX)
-	if(WIN32)
-		# Windows -------------------------------------------
-		if(XMP_BUILD_STATIC)
-			set(XMPCORE_LIB "XMPCoreStatic")
-		else(XMP_BUILD_STATIC)
-			set(XMPCORE_LIB "XMPCore")
-		endif()
-	endif(WIN32)
-endif(UNIX)
 
 # ==============================================================================
 # For convenience we define the sources as a variable. You can add 
@@ -145,7 +103,6 @@ if(WIN32)
 else()
 	list (APPEND THIRDPARTY_SOURCE_FILES resource/${XMP_PLATFORM_SHORT}/expat_config.h)
 endif()
-source_group("Source Files\\Third Party" FILES ${THIRDPARTY_SOURCE_FILES})
 
 list (APPEND UTILITY_SOURCE_FILES
 	source/ExpatAdapter.cpp
@@ -165,32 +122,10 @@ else ()
 endif()
 
 if(WIN32 AND NOT BUILD_SHARED_LIBS)
-	list(REMOVE_ITEM RESOURCE_FILES resource/${XMP_PLATFORM_SHORT}/${TARGET_NAME}.rc)
+	list(REMOVE_ITEM RESOURCE_FILES resource/${XMP_PLATFORM_SHORT}/XMPCore.rc)
 endif()
 source_group("Resource Files" FILES resource})
 
-if (WIN32 OR UNIX)
-	list(APPEND SOURCE_FILES 
-		${PUBLIC_CLIENTGLUE_HEADER_FILES}
-		${PUBLIC_HEADER_FILES}
-		${INTERNAL_HEADER_FILES}
-		${ABIWRAPPER_SOURCE_FILES}
-		${ABIWRAPPER_SOURCE_FILES}
-		${CORECLASS_SOURCE_FILES}
-		${THIRDPARTY_SOURCE_FILES}
-		${UTILITY_SOURCE_FILES}
-		${PRIVATE_XMPCORE_ISOURCE_FILES}
-		${PRIVATE_XMPCORE_IMPLSOURCE_FILES}
-		${PRIVATE_XMPCOMMON_HEADERS}
-		${PRIVATE_XMPCOMMON_SOURCES}
-		${PRIVATE_XMPCORE_HEADERS}
-		${PUBLIC_XMPCOMMON_HEADERS}
-		${PUBLIC_XMPCOMMON_SOURCES}
-		${PUBLIC_XMPCORE_HEADERS}
-		${PUBLIC_XMPCORE_SOURCES}
-		${RESOURCE_FILES}
-	)
-endif()
 
 # include directories
 include_directories(${XMPROOT_DIR})
@@ -221,76 +156,91 @@ if (UNIX AND APPLE AND BUILD_SHARED_LIBS)
 		set (INFO_PLIST_FLAGS "-DNDEBUG=1")
 	endif()
 	if(NOT APPLE_IOS)
-		add_custom_target(${TARGET_NAME}InfoPlist
+		add_custom_target(XMPCoreInfoPlist
 			COMMAND mkdir -p ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}
 			COMMAND if [ $(CONFIGURATION) != Debug ]; then
-				${GCCTOOL} -E -P -x c resource/${XMP_PLATFORM_SHORT}/${TARGET_NAME}.plist
+				${GCCTOOL} -E -P -x c resource/${XMP_PLATFORM_SHORT}/XMPCore.plist
 				-F${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/
-				-DPRODUCT_NAME=${TARGET_NAME} -DMAC_ENV=1 -DNDEBUG=1
-				-include resource/${XMP_PLATFORM_SHORT}/${TARGET_NAME}PList.h
+				-DPRODUCT_NAME=XMPCore -DMAC_ENV=1 -DNDEBUG=1
+				-include resource/${XMP_PLATFORM_SHORT}/XMPCorePList.h
 				-o ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/Info.plist
 				\; else
-				${GCCTOOL} -E -P -x c resource/${XMP_PLATFORM_SHORT}/${TARGET_NAME}.plist
+				${GCCTOOL} -E -P -x c resource/${XMP_PLATFORM_SHORT}/XMPCore.plist
 				-F${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/
-				-DPRODUCT_NAME=${TARGET_NAME} -DMAC_ENV=1 -DDEBUG=1
-				-include resource/${XMP_PLATFORM_SHORT}/${TARGET_NAME}PList.h
+				-DPRODUCT_NAME=XMPCore -DMAC_ENV=1 -DDEBUG=1
+				-include resource/${XMP_PLATFORM_SHORT}/XMPCorePList.h
 				-o ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/Info.plist
 				\; fi
-			COMMAND rm -f ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/../CMakeFiles/${TARGET_NAME}.dir/Info.plist
-			COMMAND cp ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/Info.plist ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/../CMakeFiles/${TARGET_NAME}.dir/Info.plist
+			COMMAND rm -f ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/../CMakeFiles/XMPCore.dir/Info.plist
+			COMMAND cp ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/Info.plist ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/../CMakeFiles/XMPCore.dir/Info.plist
 			COMMENT "Preprocessing Info-plist"
 		)
 	else()
-		add_custom_target(${TARGET_NAME}InfoPlist
+		add_custom_target(XMPCoreInfoPlist
 			COMMAND mkdir -p ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}
 			COMMAND if [ $(CONFIGURATION) != Debug ]; then
-				${GCCTOOL} -E -P -x c resource/ios/${TARGET_NAME}.plist
+				${GCCTOOL} -E -P -x c resource/ios/XMPCore.plist
 				-F${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/
-				-DPRODUCT_NAME=${TARGET_NAME} -DIOS_ENV=1 -DNDEBUG=1
-				-include resource/ios/${TARGET_NAME}PList.h
+				-DPRODUCT_NAME=XMPCore -DIOS_ENV=1 -DNDEBUG=1
+				-include resource/ios/XMPCorePList.h
 				-o ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/Info.plist
 				\; else
-				${GCCTOOL} -E -P -x c resource/ios/${TARGET_NAME}.plist
+				${GCCTOOL} -E -P -x c resource/ios/XMPCore.plist
 				-F${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/
-				-DPRODUCT_NAME=${TARGET_NAME} -DIOS_ENV=1 -DDEBUG=1
-				-include resource/ios/${TARGET_NAME}PList.h
+				-DPRODUCT_NAME=XMPCore -DIOS_ENV=1 -DDEBUG=1
+				-include resource/ios/XMPCorePList.h
 				-o ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/Info.plist
 				\; fi
-			COMMAND rm -f ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/../CMakeFiles/${TARGET_NAME}.dir/Info.plist
-			COMMAND cp ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/Info.plist ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/../CMakeFiles/${TARGET_NAME}.dir/Info.plist
+			COMMAND rm -f ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/../CMakeFiles/XMPCore.dir/Info.plist
+			COMMAND cp ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/Info.plist ${CMAKE_CURRENT_BINARY_DIR}/${CMAKE_CFG_INTDIR}/../CMakeFiles/XMPCore.dir/Info.plist
 			COMMENT "Preprocessing Info-plist"
 		)
 	endif()
-	set(DEPENDENCY_LIST "ALL:${TARGET_NAME}InfoPlist")
+	set(DEPENDENCY_LIST "ALL:XMPCoreInfoPlist")
 else ()
 	set(DEPENDENCY_LIST "")
 endif()
 
-#AddLibraryAndDependencies(${TARGET_NAME} ${XMP_BUILD_STATIC} YES "SHARED" SOURCE_FILES DEPENDENCY_LIST)
-add_library(${TARGET_NAME} ${SOURCE_FILES})
-
-#set the output name
-set_target_properties(${TARGET_NAME} PROPERTIES OUTPUT_NAME  ${XMPCORE_LIB})
+add_library(XMPCore
+    ${PUBLIC_CLIENTGLUE_HEADER_FILES}
+    ${PUBLIC_HEADER_FILES}
+    ${INTERNAL_HEADER_FILES}
+    ${ABIWRAPPER_SOURCE_FILES}
+    ${ABIWRAPPER_SOURCE_FILES}
+    ${CORECLASS_SOURCE_FILES}
+    ${THIRDPARTY_SOURCE_FILES}
+    ${UTILITY_SOURCE_FILES}
+    ${PRIVATE_XMPCORE_ISOURCE_FILES}
+    ${PRIVATE_XMPCORE_IMPLSOURCE_FILES}
+    ${PRIVATE_XMPCOMMON_HEADERS}
+    ${PRIVATE_XMPCOMMON_SOURCES}
+    ${PRIVATE_XMPCORE_HEADERS}
+    ${PUBLIC_XMPCOMMON_HEADERS}
+    ${PUBLIC_XMPCOMMON_SOURCES}
+    ${PUBLIC_XMPCORE_HEADERS}
+    ${PUBLIC_XMPCORE_SOURCES}
+    ${RESOURCE_FILES}
+)
 
 # ==============================================================================
 # Link dependencies
 set(FRAMEWORK_LIST "ALL:CoreFoundation" "Mac:CoreServices")
-AddMacFramework(${TARGET_NAME} FRAMEWORK_LIST)
+AddMacFramework(XMPCore FRAMEWORK_LIST)
 
 
 if(WIN32)
-	SetWinLinkFlags(${TARGET_NAME} "rpcrt4.lib" "${XMPCORE_LIB}")
-else(WIN32)
+    SetWinLinkFlags(XMPCore "rpcrt4.lib" "XMPCore")
+else()
 	if(UNIX AND NOT APPLE)
-		SetWinLinkFlags(${TARGET_NAME} "-Xlinker --version-script -Xlinker \"resource/${XMP_PLATFORM_SHORT}/${TARGET_NAME}.exp\"" "")
+		SetWinLinkFlags(XMPCore "-Xlinker --version-script -Xlinker \"resource/${XMP_PLATFORM_SHORT}/XMPCore.exp\"" "")
 	else()
         if(APPLE_IOS AND BUILD_SHARED_LIBS)
-			set_target_properties(${TARGET_NAME} PROPERTIES XCODE_ATTRIBUTE_DYLIB_INSTALL_NAME_BASE "@rpath")
-			set_target_properties(${TARGET_NAME} PROPERTIES XCODE_ATTRIBUTE_PRODUCT_BUNDLE_IDENTIFIER "com.adobe.Adobe${TARGET_NAME}")
+			set_target_properties(XMPCore PROPERTIES XCODE_ATTRIBUTE_DYLIB_INSTALL_NAME_BASE "@rpath")
+			set_target_properties(XMPCore PROPERTIES XCODE_ATTRIBUTE_PRODUCT_BUNDLE_IDENTIFIER "com.adobe.AdobeXMPCore")
 		endif()
-		set_target_properties(${TARGET_NAME} PROPERTIES BUILD_WITH_INSTALL_RPATH ON INSTALL_NAME_DIR "@executable_path/../Frameworks")
-		SetWinLinkFlags(${TARGET_NAME} "-unexported_symbols_list \"resource/${XMP_PLATFORM_SHORT}/XMPCore.unexp\"" "${XMPCORE_LIB}")
-		set_target_properties(${TARGET_NAME} PROPERTIES XCODE_ATTRIBUTE_GCC_SYMBOLS_PRIVATE_EXTERN "YES")
+		set_target_properties(XMPCore PROPERTIES BUILD_WITH_INSTALL_RPATH ON INSTALL_NAME_DIR "@executable_path/../Frameworks")
+		SetWinLinkFlags(XMPCore "-unexported_symbols_list \"resource/${XMP_PLATFORM_SHORT}/XMPCore.unexp\"" "XMPCore")
+		set_target_properties(XMPCore PROPERTIES XCODE_ATTRIBUTE_GCC_SYMBOLS_PRIVATE_EXTERN "YES")
 	endif()
 endif()
 
