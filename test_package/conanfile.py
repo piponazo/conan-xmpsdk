@@ -16,7 +16,8 @@ class XmpsdkTestConan(ConanFile):
 
     def imports(self):
         self.copy("*.dll", dst="bin", src="bin")
-        self.copy("*.dylib*", dst="bin", src="lib")
+        #self.copy("*.dylib*", dst="bin", src="lib")
+        self.copy("*.dylib*", dst="Frameworks", src="lib")
         self.copy('*.so*', dst='bin', src='lib')
 
     def test(self):
