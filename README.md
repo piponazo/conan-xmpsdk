@@ -1,6 +1,6 @@
 ## Package Status
 
-| Bintray | Windows | Linux & Mac | 
+| Bintray | Linux & Mac | Windows | 
 |:--------:|:---------:|:-------------:|
 |[ ![Download](https://api.bintray.com/packages/piponazo/piponazo/XmpSdk/images/download.svg?version=2016.7-0) ](https://bintray.com/piponazo/piponazo/XmpSdk/2016.7-0/link)|[![Build Status](https://travis-ci.org/piponazo/conan-xmpsdk.svg?branch=master)](https://travis-ci.org/piponazo/conan-xmpsdk)|[![Build status](https://ci.appveyor.com/api/projects/status/7h0e8d3daqhtbujk/branch/master?svg=true)](https://ci.appveyor.com/project/piponazo/conan-xmpsdk-bj992/branch/master)|
 
