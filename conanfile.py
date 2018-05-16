@@ -65,7 +65,6 @@ class XmpsdkConan(ConanFile):
             self.cpp_info.defines = ['MAC_ENV']
         else:
             self.cpp_info.defines = ['UNIX_ENV']
-        self.cpp_info.defines = []  # preprocessor definitions
         self.cpp_info.cflags = []  # pure C flags
         self.cpp_info.cppflags = []  # C++ compilation flags
         self.cpp_info.sharedlinkflags = []  # linker flags

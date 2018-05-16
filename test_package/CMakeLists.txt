@@ -7,10 +7,6 @@ conan_basic_setup()
 find_package(XmpSdk REQUIRED)
 
 add_executable(example example.cpp)
-target_link_libraries(example ${XMPSDK_LIBRARIES})
-
-# CTest is a testing tool that can be used to test your project.
-# enable_testing()
-# add_test(NAME example
-#          WORKING_DIRECTORY ${CMAKE_BINARY_DIR}/bin
-#          COMMAND example)
+target_link_libraries(example PRIVATE ${XMPSDK_LIBRARIES})
+target_include_directories(example PRIVATE ${XMPSDK_INCLUDE_DIRS})
+target_compile_definitions(example PRIVATE ${XMPSDK_DEFINES})
