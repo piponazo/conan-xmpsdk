@@ -34,7 +34,10 @@ class XmpsdkConan(ConanFile):
         shutil.copytree(src="third-party/expat", dst="XMP-Toolkit-SDK-CC201607/third-party/expat")
 
         # BUILD_SHARED_LIBS defined with self.shared value
-        cmake_args = {"XMP_OSX_SDK": os.environ["XMP_OSX_SDK"]}
+        cmake_args = {}
+        if tools.os_info.is_macos:
+            cmake_args.update({"XMP_OSX_SDK": os.environ["XMP_OSX_SDK"]})
+
         cmake = CMake(self)
         cmake.verbose = True
         cmake.configure(source_folder="XMP-Toolkit-SDK-CC201607", args=cmake_args)
