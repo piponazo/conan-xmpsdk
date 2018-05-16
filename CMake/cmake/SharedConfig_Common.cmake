@@ -96,6 +96,14 @@ endfunction(ConvertListToString)
 function(DetectXCodeVersion)
 	# get xcode version
 	execute_process(
+			  COMMAND xcodebuild -showsdks
+			  OUTPUT_VARIABLE XCODE_SDKS
+			  OUTPUT_STRIP_TRAILING_WHITESPACE
+	)
+	message("EEEEEEE: ${XCODE_SDKS}")
+
+	# get xcode version
+	execute_process(
 			  COMMAND xcodebuild -version
 			  OUTPUT_VARIABLE CMAKE_INSTALLED_XCODE_VERSION
 			  OUTPUT_STRIP_TRAILING_WHITESPACE
