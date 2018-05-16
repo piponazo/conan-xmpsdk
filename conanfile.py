@@ -15,6 +15,7 @@ class XmpsdkConan(ConanFile):
     default_options = "shared=False"
 
     generators = "cmake"
+    short_paths = True
 
     def system_requirements(self):
         if tools.os_info.is_linux:
