@@ -1,6 +1,6 @@
 from conans import ConanFile, CMake, tools
 import shutil
-
+import os
 
 class XmpsdkConan(ConanFile):
     name = "XmpSdk"
@@ -34,13 +34,10 @@ class XmpsdkConan(ConanFile):
         shutil.copytree(src="third-party/expat", dst="XMP-Toolkit-SDK-CC201607/third-party/expat")
 
         # BUILD_SHARED_LIBS defined with self.shared value
-	os_generator = None
-	if tools.os_info.is_macos:
-		os_generator = 'Xcode'
-
-        cmake = CMake(self, generator=os_generator)
+        cmake_args = {"XMP_OSX_SDK": os.environ["XMP_OSX_SDK"]}
+        cmake = CMake(self)
         cmake.verbose = True
-        cmake.configure(source_folder="XMP-Toolkit-SDK-CC201607")
+        cmake.configure(source_folder="XMP-Toolkit-SDK-CC201607", args=cmake_args)
         cmake.build()
 
     def package(self):
