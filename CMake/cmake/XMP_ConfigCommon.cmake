@@ -1,10 +1,10 @@
 #add definition specific to XMP and shared by all projects
 add_definitions(-DXML_STATIC=1 -DHAVE_EXPAT_CONFIG_H=1 )
 
-if(XMP_BUILD_STATIC)
-	add_definitions(-DXMP_StaticBuild=1)
-else()
+if(BUILD_SHARED_LIBS)
 	add_definitions(-DXMP_DynamicBuild=1)
+else()
+	add_definitions(-DXMP_StaticBuild=1)
 endif()
 
 #add_definitions(-DBUILDING_XMPCOMMON_LIB=1)
