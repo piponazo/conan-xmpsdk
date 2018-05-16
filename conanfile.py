@@ -51,7 +51,12 @@ class XmpsdkConan(ConanFile):
         self.cpp_info.libdirs = ['lib']  # Directories where libraries can be found
         self.cpp_info.resdirs = ['res']  # Directories where resources, data, etc can be found
         self.cpp_info.bindirs = ['bin']  # Directories where executables and shared libs can be found
-        # TODO MAC_ENV || UNIX_ENV || WIN_ENV || IOS_ENV
+        if tools.os_info.is_windows:
+            self.cpp_info.defines = ['WIN_ENV']
+        elif tools.os_info.is_macos:
+            self.cpp_info.defines = ['MAC_ENV']
+        else:
+            self.cpp_info.defines = ['UNIX_ENV']
         self.cpp_info.defines = []  # preprocessor definitions
         self.cpp_info.cflags = []  # pure C flags
         self.cpp_info.cppflags = []  # C++ compilation flags
