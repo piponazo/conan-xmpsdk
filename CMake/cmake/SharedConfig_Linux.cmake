@@ -1,16 +1,3 @@
-# =================================================================================================
-# ADOBE SYSTEMS INCORPORATED
-# Copyright 2013 Adobe Systems Incorporated
-# All Rights Reserved
-#
-# NOTICE: Adobe permits you to use, modify, and distribute this file in accordance with the terms
-# of the Adobe license agreement accompanying it.
-# =================================================================================================
-
-# ==============================================================================
-# define minimum cmake version
-cmake_minimum_required(VERSION 3.5.2)
-
 # ==============================================================================
 # Shared config for linux
 # ==============================================================================
@@ -42,9 +29,6 @@ set(CMAKE_C_FLAGS_RELEASE "${COMMON_SHARED_COMPILE_RELEASE_FLAGS}")
 set(CMAKE_CXX_FLAGS "${COMMON_SHARED_COMPILE_FLAGS} ${COMMON_EXTRA_CXX_COMPILE_FLAGS} -Wno-reorder -std=c++0x")
 set(CMAKE_CXX_FLAGS_DEBUG "${COMMON_SHARED_COMPILE_DEBUG_FLAGS}")
 set(CMAKE_CXX_FLAGS_RELEASE "${COMMON_SHARED_COMPILE_RELEASE_FLAGS}")
-set(COMMON_PLATFORM_BEGIN_WHOLE_ARCHIVE "-Wl,--whole-archive")
-set(COMMON_PLATFORM_END_WHOLE_ARCHIVE "-Wl,--no-whole-archive")
-set(COMMON_DYLIBEXTENSION	"so")
 
 if(NOT CMAKE_BUILD_WITH_INSTALL_RPATH)
     set(CMAKE_BUILD_WITH_INSTALL_RPATH TRUE)
@@ -52,11 +36,6 @@ if(NOT CMAKE_BUILD_WITH_INSTALL_RPATH)
 endif()
 
 SetupCompilerFlags()
-
-
-# ==============================================================================
-# Functions
-# ==============================================================================
 
 # ==============================================================================
 # Function: Add Mac framework to list of libraries to link to
@@ -73,7 +52,6 @@ endfunction(AddMacFramework)
 # TODO: make function work on all platforms. Unify with AddMacFramework.
 function(SetPlatformLinkFlags target linkflags libname)
 	set_target_properties(${target} PROPERTIES LINK_FLAGS "${XMP_PLATFORM_LINK} ${linkflags}")
-
 endfunction(SetPlatformLinkFlags)
 
 # ==============================================================================

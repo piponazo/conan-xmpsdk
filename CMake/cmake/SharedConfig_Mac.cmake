@@ -39,9 +39,6 @@ if(${COMPONENT}_ENABLE_SECURE_SETTINGS)
 	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fstack-protector -D_FORTIFY_SOURCE=2")
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fstack-protector")
 endif()
-set(COMMON_PLATFORM_BEGIN_WHOLE_ARCHIVE "")
-set(COMMON_PLATFORM_END_WHOLE_ARCHIVE "")
-set(COMMON_DYLIBEXTENSION	"dylib")
 
 # Setting libstdc++ as default library for compilation
 set (CMAKE_XCODE_ATTRIBUTE_CLANG_CXX_LIBRARY "libstdc++")
