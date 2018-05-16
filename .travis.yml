@@ -5,6 +5,7 @@ env:
      - CONAN_USERNAME: "piponazo"
      - CONAN_LOGIN_USERNAME: "piponazo"
      - CONAN_CHANNEL: "testing"
+     - CONAN_UPLOAD: "https://api.bintray.com/conan/piponazo/piponazo"
      
 linux: &linux
    os: linux
