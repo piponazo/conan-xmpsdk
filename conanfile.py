@@ -16,7 +16,10 @@ class XmpsdkConan(ConanFile):
 
     generators = "cmake"
 
-    # TODO: Require uuid-dev on Linux
+    def system_requirements(self):
+        if tools.os_info.is_linux:
+            installer = tools.SystemPackageTool()
+            installer.install('uuid-dev')
 
     def source(self):
         tools.get('http://download.macromedia.com/pub/developer/xmp/sdk/XMP-Toolkit-SDK-CC201607.zip')
