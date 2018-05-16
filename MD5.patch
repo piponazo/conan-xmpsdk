@@ -1,0 +1,11 @@
+--- MD5.h	2018-05-16 19:26:46.500097069 +0200
++++ MD5.h.b	2018-05-16 19:44:45.714697295 +0200
+@@ -29,7 +29,7 @@
+ 
+ /******************************************************************************/
+ 
+-#include "public/include/XMP_Const.h"	// For safe fixed integer sizes.
++#include "XMP_Const.h"	// For safe fixed integer sizes.
+ 
+ /* MD5 context. */
+ struct MD5_CTX

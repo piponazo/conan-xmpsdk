@@ -9,7 +9,7 @@ class XmpsdkConan(ConanFile):
     url = "https://github.com/piponazo/conan-xmpsdk"
     description = "<Description of Xmpsdk here>"
     settings = "os", "compiler", "build_type", "arch"
-    exports = ["CMake/*", "third-party/*", "FindXmpSdk.cmake"]
+    exports = ["CMake/*", "third-party/*", "FindXmpSdk.cmake", "MD5.patch"]
 
     options = {"shared": [True, False]}
     default_options = "shared=False"
@@ -42,6 +42,9 @@ class XmpsdkConan(ConanFile):
         cmake.verbose = True
         cmake.configure(source_folder="XMP-Toolkit-SDK-CC201607", args=cmake_args)
         cmake.build()
+
+        tools.patch(base_path="XMP-Toolkit-SDK-CC201607/third-party/zuid/interfaces",
+                    patch_file="MD5.patch")
 
     def package(self):
         self.copy("FindXmpSdk.cmake")
