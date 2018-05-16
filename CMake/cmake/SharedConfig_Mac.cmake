@@ -1,40 +1,22 @@
-# =================================================================================================
-# ADOBE SYSTEMS INCORPORATED
-# Copyright 2013 Adobe Systems Incorporated
-# All Rights Reserved
-#
-# NOTICE: Adobe permits you to use, modify, and distribute this file in accordance with the terms
-# of the Adobe license agreement accompanying it.
-# =================================================================================================
-
-# ==============================================================================
-# define minimum cmake version
-cmake_minimum_required(VERSION 3.5.2)
-
 # ==============================================================================
 # Shared config for mac
 # ==============================================================================
-DetectXCodeVersion()
-
-if(${CMAKE_INSTALLED_XCODE_VERSION} LESS 4.3.0)
-	if(NOT DEFINED ${COMPONENT}_DEVELOPER_ROOT)
-		set(${COMPONENT}_DEVELOPER_ROOT "/Developer")
-	endif()
-	
-	set(CMAKE_OSX_DEPLOYMENT_TARGET 	${${COMPONENT}_OSX_TARGET})
-else()
-	# get xcode installation path
-	execute_process(
-			  COMMAND xcode-select -print-path
-			  OUTPUT_VARIABLE ${COMPONENT}_DEVELOPER_ROOT
-			  OUTPUT_STRIP_TRAILING_WHITESPACE
-	)
-	set(CMAKE_OSX_DEPLOYMENT_TARGET 	${${COMPONENT}_OSX_TARGET})
-   	set(${COMPONENT}_DEVELOPER_ROOT "${${COMPONENT}_DEVELOPER_ROOT}/Platforms/MacOSX.platform/Developer")
-endif()
-
-set(CMAKE_OSX_SYSROOT "${${COMPONENT}_DEVELOPER_ROOT}/SDKs/MacOSX${${COMPONENT}_OSX_SDK}.sdk")
-
+#DetectXCodeVersion()
+#
+## get xcode installation path
+#execute_process(
+#          COMMAND xcode-select -print-path
+#          OUTPUT_VARIABLE ${COMPONENT}_DEVELOPER_ROOT
+#          OUTPUT_STRIP_TRAILING_WHITESPACE
+#)
+#set(CMAKE_OSX_DEPLOYMENT_TARGET 	${${COMPONENT}_OSX_TARGET})
+#set(${COMPONENT}_DEVELOPER_ROOT "${${COMPONENT}_DEVELOPER_ROOT}/Platforms/MacOSX.platform/Developer")
+#
+#set(CMAKE_OSX_SYSROOT "${${COMPONENT}_DEVELOPER_ROOT}/SDKs/MacOSX${${COMPONENT}_OSX_SDK}.sdk")
+#
+#message("CMAKE_OSX_DEPLOYMENT_TARGET: ${CMAKE_OSX_DEPLOYMENT_TARGET}")
+#message("XMP_DEVELOPER_ROOT: ${XMP_DEVELOPER_ROOT}")
+#message("CMAKE_OSX_SYSROOT: ${CMAKE_OSX_SYSROOT}")
 
 
 #

@@ -32,12 +32,12 @@ if (UNIX)
 			endif(CMAKE_CL_64)
 
 			# is SDK and deployment target set?
-			if(NOT DEFINED XMP_OSX_SDK)
-				# no, so default to CS6 settings
-				#set(CMAKE_XCODE_ATTRIBUTE_GCC_VERSION "4.2")
-				set(XMP_OSX_SDK		10.8)
-				set(XMP_OSX_TARGET	10.7)
-			endif()
+            #if(NOT DEFINED XMP_OSX_SDK)
+			#	# no, so default to CS6 settings
+			#	#set(CMAKE_XCODE_ATTRIBUTE_GCC_VERSION "4.2")
+			#	set(XMP_OSX_SDK		10.8)
+			#	set(XMP_OSX_TARGET	10.7)
+			#endif()
 
 			add_definitions(-DMAC_ENV=1)
 

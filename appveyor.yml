@@ -9,6 +9,7 @@ environment:
     CONAN_USERNAME: "piponazo"
     CONAN_LOGIN_USERNAME: "piponazo"
     CONAN_CHANNEL: "testing"
+    CONAN_UPLOAD: "https://api.bintray.com/conan/piponazo/piponazo"
     
     matrix:
         - APPVEYOR_BUILD_WORKER_IMAGE: Visual Studio 2015
