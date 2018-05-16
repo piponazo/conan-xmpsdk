@@ -1,22 +1,22 @@
 # ==============================================================================
 # Shared config for mac
 # ==============================================================================
-DetectXCodeVersion()
-
-# get xcode installation path
-execute_process(
-          COMMAND xcode-select -print-path
-          OUTPUT_VARIABLE ${COMPONENT}_DEVELOPER_ROOT
-          OUTPUT_STRIP_TRAILING_WHITESPACE
-)
-set(CMAKE_OSX_DEPLOYMENT_TARGET 	${${COMPONENT}_OSX_TARGET})
-set(${COMPONENT}_DEVELOPER_ROOT "${${COMPONENT}_DEVELOPER_ROOT}/Platforms/MacOSX.platform/Developer")
-
-set(CMAKE_OSX_SYSROOT "${${COMPONENT}_DEVELOPER_ROOT}/SDKs/MacOSX${${COMPONENT}_OSX_SDK}.sdk")
-
-message("CMAKE_OSX_DEPLOYMENT_TARGET: ${CMAKE_OSX_DEPLOYMENT_TARGET}")
-message("XMP_DEVELOPER_ROOT: ${XMP_DEVELOPER_ROOT}")
-message("CMAKE_OSX_SYSROOT: ${CMAKE_OSX_SYSROOT}")
+#DetectXCodeVersion()
+#
+## get xcode installation path
+#execute_process(
+#          COMMAND xcode-select -print-path
+#          OUTPUT_VARIABLE ${COMPONENT}_DEVELOPER_ROOT
+#          OUTPUT_STRIP_TRAILING_WHITESPACE
+#)
+#set(CMAKE_OSX_DEPLOYMENT_TARGET 	${${COMPONENT}_OSX_TARGET})
+#set(${COMPONENT}_DEVELOPER_ROOT "${${COMPONENT}_DEVELOPER_ROOT}/Platforms/MacOSX.platform/Developer")
+#
+#set(CMAKE_OSX_SYSROOT "${${COMPONENT}_DEVELOPER_ROOT}/SDKs/MacOSX${${COMPONENT}_OSX_SDK}.sdk")
+#
+#message("CMAKE_OSX_DEPLOYMENT_TARGET: ${CMAKE_OSX_DEPLOYMENT_TARGET}")
+#message("XMP_DEVELOPER_ROOT: ${XMP_DEVELOPER_ROOT}")
+#message("CMAKE_OSX_SYSROOT: ${CMAKE_OSX_SYSROOT}")
 
 
 #
