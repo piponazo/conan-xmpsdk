@@ -19,6 +19,9 @@ class XmpsdkConan(ConanFile):
             installer = tools.SystemPackageTool()
             installer.install('uuid-dev')
 
+    def configure(self):
+        del self.settings.compiler.libcxx
+
     def source(self):
         tools.get('http://download.macromedia.com/pub/developer/xmp/sdk/XMP-Toolkit-SDK-CC201607.zip')
 
