@@ -49,11 +49,16 @@ class XmpsdkConan(ConanFile):
         self.copy("FindXmpSdk.cmake")
         self.copy("*", dst="include", src="XMP-Toolkit-SDK-CC201607/public/include")
         self.copy("*.h", dst="include", src="XMP-Toolkit-SDK-CC201607/third-party/zuid/interfaces")
-        self.copy("*.lib", dst="lib", keep_path=False)
-        self.copy("*.dll", dst="bin", keep_path=False)
-        self.copy("*.so", dst="lib", keep_path=False)
-        self.copy("*.dylib", dst="lib", keep_path=False)
-        self.copy("*.a", dst="lib", keep_path=False)
+        self.copy("*.lib", dst="lib", keep_path=False,
+                  excludes="XMP-Toolkit-SDK-CC201607/XMPFilesPlugins/*")
+        self.copy("*.dll", dst="bin", keep_path=False,
+                  excludes="XMP-Toolkit-SDK-CC201607/XMPFilesPlugins/*")
+        self.copy("*.so", dst="lib", keep_path=False,
+                  excludes="XMP-Toolkit-SDK-CC201607/XMPFilesPlugins/*")
+        self.copy("*.dylib", dst="lib", keep_path=False,
+                  excludes="XMP-Toolkit-SDK-CC201607/XMPFilesPlugins/*")
+        self.copy("*.a", src="lib", dst="lib", keep_path=False,
+                  excludes="XMP-Toolkit-SDK-CC201607/XMPFilesPlugins/*")
 
     def package_info(self):
         self.cpp_info.libs = ["XMPCore"]
