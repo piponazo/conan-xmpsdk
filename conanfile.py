@@ -9,10 +9,7 @@ class XmpsdkConan(ConanFile):
     url = "https://github.com/piponazo/conan-xmpsdk"
     description = "<Description of Xmpsdk here>"
     settings = "os", "compiler", "build_type", "arch"
-    exports = ["CMake/*", "third-party/*", "FindXmpSdk.cmake"]
-
-    options = {"shared": [True, False]}
-    default_options = "shared=False"
+    exports = ["CMake/*", "third-party/*", "FindXmpSdk.cmake", "MD5.patch"]
 
     generators = "cmake"
     short_paths = True
@@ -33,8 +30,10 @@ class XmpsdkConan(ConanFile):
         shutil.rmtree("XMP-Toolkit-SDK-CC201607/third-party/expat")
         shutil.copytree(src="third-party/expat", dst="XMP-Toolkit-SDK-CC201607/third-party/expat")
 
-        # BUILD_SHARED_LIBS defined with self.shared value
-        cmake_args = {}
+        # It has been always compiled as a STATIC library within the Exiv2 project.
+        # In SHARED mode it has problems on windows, since they are not exporting some symbols
+        # properly.
+        cmake_args = {"BUILD_SHARED_LIBS": "OFF"}
         if tools.os_info.is_macos:
             cmake_args.update({"XMP_OSX_SDK": os.environ["XMP_OSX_SDK"]})
 
@@ -42,6 +41,9 @@ class XmpsdkConan(ConanFile):
         cmake.verbose = True
         cmake.configure(source_folder="XMP-Toolkit-SDK-CC201607", args=cmake_args)
         cmake.build()
+
+        tools.patch(base_path="XMP-Toolkit-SDK-CC201607/third-party/zuid/interfaces",
+                    patch_file="MD5.patch")
 
     def package(self):
         self.copy("FindXmpSdk.cmake")
@@ -65,7 +67,6 @@ class XmpsdkConan(ConanFile):
             self.cpp_info.defines = ['MAC_ENV']
         else:
             self.cpp_info.defines = ['UNIX_ENV']
-        self.cpp_info.defines = []  # preprocessor definitions
         self.cpp_info.cflags = []  # pure C flags
         self.cpp_info.cppflags = []  # C++ compilation flags
         self.cpp_info.sharedlinkflags = []  # linker flags

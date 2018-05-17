@@ -1,16 +1,3 @@
-# =================================================================================================
-# ADOBE SYSTEMS INCORPORATED
-# Copyright 2013 Adobe Systems Incorporated
-# All Rights Reserved
-#
-# NOTICE: Adobe permits you to use, modify, and distribute this file in accordance with the terms
-# of the Adobe license agreement accompanying it.
-# =================================================================================================
-
-# ==============================================================================
-# define minimum cmake version
-cmake_minimum_required(VERSION 3.5.2)
-
 # ==============================================================================
 # Shared config for windows
 # ==============================================================================
@@ -19,11 +6,11 @@ if(CMAKE_CL_64)
 	set(COMMON_SHARED_COMPILE_FLAGS "-DWIN64 -D_WIN64=1")
 	set(COMMON_WIN32_CXX_EXTRAFLAGS "/bigobj")
 	set(COMMON_WIN32_LINK_EXTRAFLAGS "")
-else(CMAKE_CL_64)
+else()
 	set(COMMON_SHARED_COMPILE_FLAGS "-DWIN32")
 	set(COMMON_WIN32_CXX_EXTRAFLAGS "/arch:SSE2")
 	set(COMMON_WIN32_LINK_EXTRAFLAGS "/SAFESEH /NXCOMPAT /LARGEADDRESSAWARE")
-endif(CMAKE_CL_64)
+endif()
 
 set(COMMON_SHARED_COMPILE_FLAGS "${${COMPONENT}_SHARED_COMPILE_FLAGS} ${COMMON_SHARED_COMPILE_FLAGS} -DNOMINMAX -DUNICODE -D_UNICODE ${COMMON_WIN32_CXX_EXTRAFLAGS} /MP /W3 /GF /GS /EHsc /nologo /Zi /TP /errorReport:prompt")
 set(COMMON_SHARED_COMPILE_DEBUG_FLAGS "-DDEBUG /Od /RTC1 ${${COMPONENT}_SHARED_COMPILE_DEBUG_FLAGS}")
@@ -44,9 +31,6 @@ set(CMAKE_C_FLAGS_RELEASE "${COMMON_SHARED_COMPILE_RELEASE_FLAGS}")
 set(CMAKE_CXX_FLAGS "${COMMON_SHARED_COMPILE_FLAGS} ${COMMON_EXTRA_CXX_COMPILE_FLAGS}")
 set(CMAKE_CXX_FLAGS_DEBUG "${COMMON_SHARED_COMPILE_DEBUG_FLAGS}")
 set(CMAKE_CXX_FLAGS_RELEASE "${COMMON_SHARED_COMPILE_RELEASE_FLAGS}")
-set(COMMON_PLATFORM_BEGIN_WHOLE_ARCHIVE "")
-set(COMMON_PLATFORM_END_WHOLE_ARCHIVE "")
-set(COMMON_DYLIBEXTENSION	"dll")
 
 if(NOT DEFINED COMMON_TOOLSET)
 	if(MSVC90)

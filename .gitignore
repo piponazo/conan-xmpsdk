@@ -100,3 +100,4 @@ ENV/
 
 #vim
 *.swp
+*.stackdump
