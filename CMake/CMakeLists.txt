@@ -13,6 +13,9 @@ else()
 	project(${TARGET_NAME})
 endif()
 
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake REQUIRED)
+conan_basic_setup()
+
 set(XMP_ROOT ${PROJECT_SOURCE_DIR})
 
 include(cmake/XMP_Config.cmake REQUIRED)
