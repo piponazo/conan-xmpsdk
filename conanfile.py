@@ -37,6 +37,7 @@ class XmpsdkConan(ConanFile):
         # In SHARED mode it has problems on windows, since they are not exporting some symbols
         # properly.
         cmake_args = {"BUILD_SHARED_LIBS": "OFF",
+                      "CMAKE_BUILD_TYPE": "Release",
                      }
         generator_arg = None
 
@@ -48,7 +49,7 @@ class XmpsdkConan(ConanFile):
 
         cmake = CMake(self, generator=generator_arg)
         cmake.verbose = True
-        cmake.configure(source_folder="XMP-Toolkit-SDK-CC201607", args=cmake_args)
+        cmake.configure(source_folder="XMP-Toolkit-SDK-CC201607", defs=cmake_args)
         cmake.build()
 
         tools.patch(base_path="XMP-Toolkit-SDK-CC201607/third-party/zuid/interfaces",
