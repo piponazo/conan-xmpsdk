@@ -36,11 +36,17 @@ class XmpsdkConan(ConanFile):
         # It has been always compiled as a STATIC library within the Exiv2 project.
         # In SHARED mode it has problems on windows, since they are not exporting some symbols
         # properly.
-        cmake_args = {"BUILD_SHARED_LIBS": "OFF"}
-        if tools.os_info.is_macos:
-            cmake_args.update({"XMP_OSX_SDK": os.environ["XMP_OSX_SDK"]})
+        cmake_args = {"BUILD_SHARED_LIBS": "OFF",
+                     }
+        generator_arg = None
 
-        cmake = CMake(self)
+        if tools.os_info.is_macos:
+            cmake_args.update({"XMP_OSX_SDK": os.environ["XMP_OSX_SDK"],
+                               "CMAKE_XCODE_ATTRIBUTE_GCC_VERSION": "com.apple.compilers.llvm.clang.1_0"
+                              })
+            generator_arg = 'Xcode'
+
+        cmake = CMake(self, generator=generator_arg)
         cmake.verbose = True
         cmake.configure(source_folder="XMP-Toolkit-SDK-CC201607", args=cmake_args)
         cmake.build()
