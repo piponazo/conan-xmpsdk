@@ -17,7 +17,10 @@ class XmpsdkConan(ConanFile):
     def system_requirements(self):
         if tools.os_info.is_linux:
             installer = tools.SystemPackageTool()
-            installer.install('uuid-dev')
+            if tools.os_info.linux_distro == "ubuntu":
+                installer.install('uuid-dev')
+            elif tools.os_info.linux_distro == "fedora" or tools.os_info.linux_distro == "centos":
+                installer.install('uuid-devel')
 
     def configure(self):
         del self.settings.compiler.libcxx
